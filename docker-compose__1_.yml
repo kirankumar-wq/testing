@@ -1,0 +1,37 @@
+version: '3.0'
+services:
+  web:
+    image: supportembitel/magento2.3.2
+    hostname: tesla.embitel.io
+    
+    ports:
+      - "80:80"
+    links:
+      - db
+    env_file:
+      - env
+  db:
+    image: mysql:5.7
+    hostname: magento2-mysql
+    restart: always
+     
+    environment:
+      MYSQL_ROOT_PASSWORD: MagentoMysql
+      MYSQL_DATABASE: magento
+      MYSQL_USER: root
+      MYSQL_PASSWORD: MagentoMysql
+      container_name: mysql
+
+    ports:
+      - "3306:3306"
+
+    env_file:
+      - env
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8580:8580"
+    links:
+      - db     
+volumes:
+  db-data:
